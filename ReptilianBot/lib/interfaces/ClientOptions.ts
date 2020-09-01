@@ -6,4 +6,8 @@ export interface ClientOptions {
 	token: string;
 	database: string;
 	owners: string[];
+	channels: {
+		errors: string;
+		modlog: string;
+	};
 }

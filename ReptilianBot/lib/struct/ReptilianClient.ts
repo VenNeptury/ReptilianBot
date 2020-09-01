@@ -15,12 +15,7 @@ export class ReptilianClient extends Client {
 		this.config = options;
 	}
 
-	public readonly config: {
-		prefix: string;
-		token: string;
-		database: string;
-		owners: string[];
-	};
+	public readonly config: ClientOptions;
 
 	public readonly logging = new LoggingService(LogLevel.info);
 	public readonly helpers = {

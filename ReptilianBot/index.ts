@@ -13,7 +13,11 @@ const client = new ReptilianClient({
 	prefix: '$',
 	database: process.env.DATABASE!,
 	token: process.env.DISCORD_TOKEN!,
-	owners: ['265560538937819137']
+	owners: ['265560538937819137'],
+	channels: {
+		errors: '',
+		modlog: '750485749039628299'
+	}
 });
 
 client.registerCommands().hookEvents().start();

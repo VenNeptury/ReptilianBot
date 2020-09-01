@@ -26,6 +26,12 @@ export class Discord {
 		return true;
 	}
 
+	public isHigher(member1: GuildMember, member2: GuildMember) {
+		return (
+			member1.id === member1.guild.ownerID || (member2.id !== member2.guild.ownerID && member1.roles.highest.position > member2.roles.highest.position)
+		);
+	}
+
 	public async getUser(msg: Message, args: string[], spot?: number) {
 		const input = spot ? args[spot].toLowerCase() : args.join(' ').toLowerCase();
 
