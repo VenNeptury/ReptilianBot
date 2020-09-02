@@ -4,7 +4,8 @@
 	"version": "1.0.0",
 	"main": "dist/index.js",
 	"scripts": {
-		"dev": "tsc && node .",
+		"dev": "npm run build && node .",
+		"build": "tsc",
 		"lint": "eslint ReptilianBot --ext .ts",
 		"lint:fix": "eslint ReptilianBot --ext .ts --fix",
 		"clean": "rm -rf dist/*",
