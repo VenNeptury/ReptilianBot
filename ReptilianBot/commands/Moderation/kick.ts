@@ -1,5 +1,4 @@
 import { Command, Message } from '../../lib/interfaces';
-import { TextChannel } from 'discord.js';
 
 const callback = async (msg: Message, args: string[]) => {
 	const member = await msg.client.helpers.discord.getMember(msg, args, 0);
@@ -27,9 +26,7 @@ const callback = async (msg: Message, args: string[]) => {
 	embed.setDescription(`${member.user.tag} has been kicked!`);
 	void msg.channel.send(embed.description!);
 
-	void (msg.guild?.channels.cache.get(msg.client.config.channels.modlog) as TextChannel | null)?.send(
-		embed.addField('Member', `${member.user.tag} (${member.user.id})`)
-	);
+	void msg.client.config.channels.modlog.send(embed.addField('Member', `${member.user.tag} (${member.user.id})`));
 };
 
 export const command: Command = {

@@ -1,4 +1,4 @@
-import { ClientOptions as BaseOptions } from 'discord.js';
+import { ClientOptions as BaseOptions, TextChannel } from 'discord.js';
 
 export interface ClientOptions {
 	base?: BaseOptions;
@@ -6,8 +6,10 @@ export interface ClientOptions {
 	token: string;
 	database: string;
 	owners: string[];
-	channels: {
-		errors: string;
-		modlog: string;
-	};
+	guild: string;
+	channels: Record<'errors' | 'modlog' | 'messagelog', string | TextChannel>;
+}
+
+export interface Config extends ClientOptions {
+	channels: Record<'errors' | 'modlog' | 'messagelog', TextChannel>;
 }

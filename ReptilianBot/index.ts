@@ -14,9 +14,11 @@ const client = new ReptilianClient({
 	database: process.env.DATABASE!,
 	token: process.env.DISCORD_TOKEN!,
 	owners: ['265560538937819137'],
+	guild: '750423432172142674',
 	channels: {
-		errors: '',
-		modlog: '750485749039628299'
+		errors: '695788085681586273',
+		modlog: '750485749039628299',
+		messagelog: '750508237215760454'
 	}
 });
 

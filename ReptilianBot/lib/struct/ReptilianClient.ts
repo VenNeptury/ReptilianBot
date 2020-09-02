@@ -6,16 +6,16 @@ import { readdirSync } from 'fs';
 import { LoggingService, LogLevel } from './LoggingService';
 import { join } from 'path';
 import { Discord, Web, text } from '../util/';
-import { FullCommand, ClientOptions } from '../interfaces/';
+import { FullCommand, ClientOptions, Config } from '../interfaces/';
 export * from '../interfaces';
 
 export class ReptilianClient extends Client {
 	public constructor(options: ClientOptions) {
 		super(options.base);
-		this.config = options;
+		this.config = options as Config;
 	}
 
-	public readonly config: ClientOptions;
+	public readonly config: Config;
 
 	public readonly logging = new LoggingService(LogLevel.info);
 	public readonly helpers = {
