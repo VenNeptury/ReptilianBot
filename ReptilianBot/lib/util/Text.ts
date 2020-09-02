@@ -5,6 +5,9 @@ export const text = {
 			.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
 			.join(' ');
 	},
+	toCodeBlock(text: string, language?: string) {
+		return `\`\`\`${language ?? ''}\n${text}\`\`\``;
+	},
 	escapeMarkdown(text: string) {
 		return text.replace(/\\(\*|_|`|~|\\)/g, '$1').replace(/(\*|_|`|~|\\)/g, '\\$1');
 	},
