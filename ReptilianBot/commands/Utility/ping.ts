@@ -2,7 +2,12 @@ import { Command, Message } from '../../lib/interfaces';
 
 const callback = async (msg: Message) => {
 	const m = await msg.channel.send(`Pinging...`);
-	return m.edit(`Pong! \`${m.createdTimestamp - msg.createdTimestamp}ms\``);
+	const ping = m.createdTimestamp - msg.createdTimestamp;
+	return m.edit(
+		`Pong! \`${ping}ms\`${
+			ping > 0 ? '' : '\n\nThis number is negative, since due to the nature of the Discord Api, my response was sent before your message.'
+		}`
+	);
 };
 
 export const command: Command = {
