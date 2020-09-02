@@ -5,5 +5,9 @@ export default (client: ReptilianClient) => {
 	client.logging.log('READY', `Prefix: ${client.config.prefix}`);
 
 	// void client.user?.setStatus('dnd');
-	// void client.user?.setActivity({ name: 'h🌲h🌲', url: 'https://www.twitch.tv/leafylive', type: 'STREAMING' });
+	void client.user?.setActivity({
+		name: 'hisss | @ me for help',
+		url: 'https://www.twitch.tv/leafylive',
+		type: 'LISTENING'
+	});
 };
