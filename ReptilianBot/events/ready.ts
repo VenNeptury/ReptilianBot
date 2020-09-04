@@ -3,7 +3,7 @@ import { TextChannel } from 'discord.js';
 
 export default (client: ReptilianClient) => {
 	for (const key in client.config.channels) {
-		if (!['errors', 'messagelog', 'modlog'].includes(key)) continue;
+		if (!['errors', 'messagelog', 'modlog', 'tweets'].includes(key)) continue;
 
 		const channelID = (client.config.channels[key as keyof typeof client.config.channels] as unknown) as string;
 		const channel = client.channels.cache.get(channelID);

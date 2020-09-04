@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-dynamic-delete */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-require-imports */
@@ -7,24 +8,25 @@ import { LoggingService, LogLevel } from './LoggingService';
 import { join } from 'path';
 import { Discord, Web, text } from '../util/';
 import { FullCommand, ClientOptions, Config } from '../interfaces/';
+import Twit from 'twit';
 export * from '../interfaces';
 
 export class ReptilianClient extends Client {
 	public constructor(options: ClientOptions) {
 		super(options.base);
 		this.config = options as Config;
+		this.twitter = new Twit(this.config.twitter);
 	}
 
 	public readonly config: Config;
-
 	public readonly logging = new LoggingService(LogLevel.info);
+	public readonly twitter: Twit;
+	public readonly commands: Collection<string, FullCommand> = new Collection();
 	public readonly helpers = {
 		web: new Web(),
 		discord: new Discord(this),
 		text
 	};
-
-	public readonly commands: Collection<string, FullCommand> = new Collection();
 
 	public getCommand(name: string) {
 		return this.commands.get(name.toLowerCase()) ?? this.commands.find(c => c.aliases.includes(name.toLowerCase()));

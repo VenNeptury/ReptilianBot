@@ -15,8 +15,8 @@ const callback = async (msg: Message, args: string[]) => {
 	const amountRaw = /\d+/.exec(query)?.[0];
 	const amount = amountRaw ? parseInt(amountRaw, 10) : 20;
 
-	let messages = await msg.channel.messages.fetch({ limit: amount > 200 ? 200 : amount }).catch(() => null);
-	if (!messages) return msg.channel.send(`I was not able to fetch messages`);
+	let messages = await msg.channel.messages.fetch({ limit: amount > 100 ? 100 : amount }).catch(() => null);
+	if (!messages) return msg.channel.send(`Something went wrong while fetching messages`);
 
 	new RegExp(Object.keys(filters).join('|'), 'ig').exec(query)?.forEach(match => (messages = messages!.filter(filters[match as keyof typeof filters])));
 
