@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { ReptilianClient } from './lib/struct/ReptilianClient';
+import { TextChannel } from 'discord.js';
 
 const client = new ReptilianClient({
 	base: {
@@ -19,8 +20,8 @@ const client = new ReptilianClient({
 	channels: {
 		errors: '695788085681586273',
 		modlog: '750485749039628299',
-		messagelog: '750508237215760454',
-		tweets: '750423581229580379'
+		messagelog: '750508237215760454'
+		// tweets: '750423581229580379'
 	},
 	twitter: {
 		consumer_key: process.env.TWT_API_KEY!,
@@ -30,15 +31,22 @@ const client = new ReptilianClient({
 	}
 });
 
-const tweeterId = '1249350606122143746';
+const tweeters = [
+	{ id: '1249350606122143746', channel: '750423581229580379', message: 'New Leafy tweet lol ' },
+	{ id: '872683897', channel: '751466995970605147', message: 'What is up, DramaAlert nation? ' }
+];
+const ids = tweeters.map(t => t.id);
 
 client
 	.registerCommands()
 	.hookEvents()
 	.start()
-	.twitter.stream('statuses/filter', { follow: tweeterId })
+	.twitter.stream('statuses/filter', { follow: ids })
 	.on('tweet', tweet => {
-		if (tweet.user.id_str !== tweeterId || !tweet.user?.screen_name || !tweet.id_str) return;
+		const tweeter = tweeters.find(t => t.id === tweet.user.id_str);
+		if (!tweeter || !tweet.user?.screen_name || !tweet.id_str) return;
 
-		void client.config.channels.tweets.send(`Leafy just tweeted! https://twitter.com/${tweet.user.screen_name as string}/status/${tweet.id_str as string}`);
+		void (client.channels.cache.get(tweeter.channel) as TextChannel | null)?.send(
+			`${tweeter.message} https://twitter.com/${tweet.user.screen_name as string}/status/${tweet.id_str as string}`
+		);
 	});

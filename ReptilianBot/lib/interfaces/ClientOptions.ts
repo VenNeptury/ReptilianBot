@@ -7,10 +7,10 @@ export interface ClientOptions {
 	database: string;
 	owners: string[];
 	guild: string;
-	channels: Record<'errors' | 'modlog' | 'messagelog' | 'tweets', string | TextChannel>;
+	channels: Record<'errors' | 'modlog' | 'messagelog', string | TextChannel>;
 	twitter: Record<'consumer_key' | 'consumer_secret' | 'access_token' | 'access_token_secret', string>;
 }
 
 export interface Config extends ClientOptions {
-	channels: Record<'errors' | 'modlog' | 'messagelog' | 'tweets', TextChannel>;
+	channels: Record<'errors' | 'modlog' | 'messagelog', TextChannel>;
 }

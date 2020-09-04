@@ -7,7 +7,7 @@ export default (client: ReptilianClient, before: Message, after: Message) => {
 	const embed = client.helpers.discord
 		.embed('INFO', true)
 		.setDescription(`[Jump to message](${before.url})`)
-		.setTitle('Message deleted')
+		.setTitle('Message updated')
 		.addFields([
 			{
 				name: 'Before',
