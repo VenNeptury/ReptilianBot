@@ -20,7 +20,7 @@ const client = new ReptilianClient({
 		errors: '695788085681586273',
 		modlog: '750485749039628299',
 		messagelog: '750508237215760454',
-		tweets: '750429096051474504'
+		tweets: '750423581229580379'
 	},
 	twitter: {
 		consumer_key: process.env.TWT_API_KEY!,
