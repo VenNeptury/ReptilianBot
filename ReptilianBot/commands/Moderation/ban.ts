@@ -4,7 +4,7 @@ const callback = async (msg: Message, args: string[]) => {
 	const member = await msg.client.helpers.discord.getMember(msg, args, 0);
 	if (!member) return;
 
-	const reason = args.slice(1).join('') || 'No reason provided';
+	const reason = args.slice(1).join(' ') || 'No reason provided';
 
 	if (!msg.client.helpers.discord.isHigher(msg.member!, member)) return msg.channel.send('You are not permitted to ban this member.');
 	if (!member.bannable) return msg.channel.send('I am unable to ban this member.');
