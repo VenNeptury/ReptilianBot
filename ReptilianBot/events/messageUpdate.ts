@@ -1,8 +1,11 @@
 import { ReptilianClient } from '../lib/struct/ReptilianClient';
 import { Message } from '../lib/interfaces';
+import { filterMessage } from './message';
 
 export default (client: ReptilianClient, before: Message, after: Message) => {
 	if ((before.partial as boolean) || before.guild?.id !== client.config.guild || before.content === after.content) return;
+
+	filterMessage(after);
 
 	const embed = client.helpers.discord
 		.embed('INFO', true)

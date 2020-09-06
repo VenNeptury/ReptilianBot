@@ -66,7 +66,7 @@ export default async (client: ReptilianClient, potentiallyPartialMessage: Messag
 		.catch(e => client.emit('commandFailed', msg, command, e));
 };
 
-const filterMessage = (msg: Message) => {
+export const filterMessage = (msg: Message) => {
 	if (!(msg.channel instanceof TextChannel)) return;
 
 	if (regex.links.test(msg.content) && !msg.channel.permissionsFor(msg.author)?.has('EMBED_LINKS')) {
@@ -75,6 +75,11 @@ const filterMessage = (msg: Message) => {
 	}
 
 	if (new RegExp(blacklist.join('|'), 'gi').test(msg.content)) {
+		msg.delete().catch(() => null);
+	}
+
+	if (msg.content.length > 1000) {
+		void msg.reply("Lmao why so much text bro I ain't reading all that shit");
 		msg.delete().catch(() => null);
 	}
 };
