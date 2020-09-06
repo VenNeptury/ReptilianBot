@@ -32,8 +32,8 @@ const client = new ReptilianClient({
 });
 
 const tweeters = [
-	{ id: '1249350606122143746', channel: '750423581229580379', message: 'New Leafy tweet lol ' },
-	{ id: '872683897', channel: '751466995970605147', message: 'What is up, DramaAlert nation? ' }
+	{ id: '1249350606122143746', channel: '750423581229580379', message: 'New Leafy tweet lol' }
+	// { id: '872683897', channel: '751466995970605147', message: 'What is up, DramaAlert nation?  }
 ];
 const ids = tweeters.map(t => t.id);
 

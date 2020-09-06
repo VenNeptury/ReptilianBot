@@ -1,5 +1,8 @@
 import { ReptilianClient, Message } from '../lib/struct/ReptilianClient';
 import { stripIndents } from 'common-tags';
+import { regex } from '../lib/constants/regex';
+import { TextChannel } from 'discord.js';
+import { blacklist } from '../lib/constants/blacklist';
 
 export default async (client: ReptilianClient, potentiallyPartialMessage: Message) => {
 	const msg = (potentiallyPartialMessage.partial as boolean)
@@ -10,6 +13,8 @@ export default async (client: ReptilianClient, potentiallyPartialMessage: Messag
 	if (msg.author.bot || msg.author.system) return;
 
 	if (!client.helpers.discord.checkPermissions(msg, ['SEND_MESSAGES', 'VIEW_CHANNEL'])) return;
+
+	filterMessage(msg);
 
 	const prefixRegex = new RegExp(`^(<@!?${client.user!.id}>|${client.config.prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})\\s*`);
 	const matched = prefixRegex.exec(msg.content);
@@ -59,4 +64,17 @@ export default async (client: ReptilianClient, potentiallyPartialMessage: Messag
 		.callback(msg, args)
 		.then(r => client.emit('commandUsed', msg, command, r))
 		.catch(e => client.emit('commandFailed', msg, command, e));
+};
+
+const filterMessage = (msg: Message) => {
+	if (!(msg.channel instanceof TextChannel)) return;
+
+	if (regex.links.test(msg.content) && !msg.channel.permissionsFor(msg.author)?.has('EMBED_LINKS')) {
+		void msg.reply('No links pls lol');
+		msg.delete().catch(() => null);
+	}
+
+	if (new RegExp(blacklist.join('|'), 'gi').test(msg.content)) {
+		msg.delete().catch(() => null);
+	}
 };
