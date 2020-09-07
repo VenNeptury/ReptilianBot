@@ -14,7 +14,7 @@ export default async (client: ReptilianClient, potentiallyPartialMessage: Messag
 
 	if (!client.helpers.discord.checkPermissions(msg, ['SEND_MESSAGES', 'VIEW_CHANNEL'])) return;
 
-	filterMessage(msg);
+	void filterMessage(msg);
 
 	const prefixRegex = new RegExp(`^(<@!?${client.user!.id}>|${client.config.prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})\\s*`);
 	const matched = prefixRegex.exec(msg.content);
@@ -75,17 +75,18 @@ export default async (client: ReptilianClient, potentiallyPartialMessage: Messag
 export const filterMessage = (msg: Message) => {
 	if (!(msg.channel instanceof TextChannel)) return;
 
+	if (msg.channel.id === '752644127400919111' && !/^.*(brick|bricked|🧱|<:bricked:752642688230097108>)+.*$/.test(msg.content))
+		return msg.delete().catch(() => null);
+
 	if (regex.links.test(msg.content) && !msg.channel.permissionsFor(msg.author)?.has('EMBED_LINKS')) {
 		void msg.reply('No links pls lol');
-		msg.delete().catch(() => null);
+		return msg.delete().catch(() => null);
 	}
 
-	if (new RegExp(blacklist.join('|'), 'gi').test(msg.content)) {
-		msg.delete().catch(() => null);
-	}
+	if (new RegExp(blacklist.join('|'), 'gi').test(msg.content)) return msg.delete().catch(() => null);
 
 	if (msg.content.length > 1000) {
 		void msg.reply("Lmao why so much text bro I ain't reading all that shit");
-		msg.delete().catch(() => null);
+		return msg.delete().catch(() => null);
 	}
 };
