@@ -84,7 +84,7 @@ export class Discord {
 
 		const options = choices.map((opt, i) => ({ index: ++i, option: opt }));
 		const m = await msg.channel.send(
-			`Please choose one of the options below:\n>>>\n${options.map(o => `${o.index.toString()} | ${this.getName(o.option)}`).join('\n')}`
+			`Please choose one of the options below:\n>>> ${options.map(o => `${o.index.toString()} | ${this.getName(o.option)}`).join('\n')}`
 		);
 		const input = await (await msg.channel.awaitMessages((m: Message) => m.author.id === msg.author.id, { max: 1, time: 1000 * 30 })).first();
 		if (!input) {
