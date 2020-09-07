@@ -4,7 +4,7 @@ const callback = async (msg: Message, args: string[]) => {
 	const halalLevel = Math.floor(Math.random() * 101);
 
 	const barLevel = Math.round(halalLevel / 5);
-	const bar = `\`Halal\` ${'-'.repeat(barLevel)}🔵'${'-'.repeat(20 - barLevel)} \`Haram\``;
+	const bar = `\`Halal\` ${'-'.repeat(barLevel)}🔵${'-'.repeat(20 - barLevel)} \`Haram\``;
 
 	const embed = msg.client.helpers.discord
 		.embed('BASIC')
