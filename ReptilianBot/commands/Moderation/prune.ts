@@ -20,6 +20,8 @@ const callback = async (msg: Message, args: string[]) => {
 	let messages = await msg.channel.messages.fetch({ limit: amount > 100 ? 100 : amount }).catch(() => null);
 	if (!messages) return msg.channel.send(`Something went wrong while fetching messages`);
 
+	messages = messages.filter(m => !m.pinned);
+
 	new RegExp(Object.keys(filters).join('|'), 'ig').exec(query)?.forEach(match => (messages = messages!.filter(filters[match as keyof typeof filters])));
 
 	const snowflake = regex.snowflake.exec(query);
