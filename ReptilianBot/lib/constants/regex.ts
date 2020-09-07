@@ -15,14 +15,26 @@ export class regex {
 	}
 
 	public static get emotes() {
+		return /<?(a)?:?(\w{2,32}):(\d{17,19})>?/;
+	}
+
+	public static get emotesG() {
 		return /<?(a)?:?(\w{2,32}):(\d{17,19})>?/g;
 	}
 
 	public static get channels() {
+		return /<#(\d{17,19})>/;
+	}
+
+	public static get channelsG() {
 		return /<#(\d{17,19})>/g;
 	}
 
 	public static get snowflake() {
+		return /\d{17,19}/;
+	}
+
+	public static get snowflakeG() {
 		return /\d{17,19}/g;
 	}
 }

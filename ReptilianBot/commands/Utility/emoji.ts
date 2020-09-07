@@ -2,11 +2,15 @@ import { Command, Message } from '../../lib/interfaces';
 import { regex } from '../../lib/constants/regex';
 
 const callback = async (msg: Message, args: string[]) => {
-	const emojis = regex.emotes.exec(args.join(' '));
+	const emojis = [];
+	const re = regex.emotesG;
+	let match;
 
-	if (!emojis || !emojis.length) return msg.channel.send('You did not provide any valid emojis!');
+	while ((match = re.exec(args.join(' ')))) emojis.push({ id: match[3], animated: Boolean(match[1]) });
 
-	const urls = emojis.map(e => `<https://cdn.discordapp.com/emojis/${regex.snowflake.exec(e)![0]}.${e.startsWith('<a') ? 'gif' : 'png'}>`);
+	if (!emojis.length) return msg.channel.send('You did not provide any valid emojis!');
+
+	const urls = emojis.map(e => `<https://cdn.discordapp.com/emojis/${e.id}.${e.animated ? 'gif' : 'png'}>`);
 
 	const result = urls.length > 1 ? urls.join('\n') : urls[0].replace(/[<>]/g, '');
 

@@ -63,7 +63,7 @@ export default async (client: ReptilianClient, potentiallyPartialMessage: Messag
 	command
 		.callback(msg, args)
 		.then(r => client.emit('commandUsed', msg, command, r))
-		.catch(e => client.emit('commandFailed', msg, command, e));
+		.catch(e => /* client.emit('commandFailed', msg, command, e)*/ console.error(e));
 };
 
 export const filterMessage = (msg: Message) => {
