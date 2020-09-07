@@ -47,10 +47,10 @@ export default async (client: ReptilianClient, potentiallyPartialMessage: Messag
 	else {
 		if (command.ownerOnly && !msg.client.config.owners.includes(msg.author.id)) return;
 
-		if (command.guildOnly && !msg.guild) return msg.channel.send(`This command can only be used on a server!`);
+		if (command.guildOnly && !msg.guild) return msg.channel.send(`This command can only be used on a server`);
 
 		if (!msg.client.helpers.discord.checkPermissions(msg, command.userPermissions, msg.member!))
-			return msg.channel.send('You are not permitted to use this command!');
+			return msg.channel.send('You are not permitted to use this command bro lmao');
 
 		if (!msg.client.helpers.discord.checkPermissions(msg, command.botPermissions))
 			return msg.channel.send('I do not have the necessary permissions to execute this command');
