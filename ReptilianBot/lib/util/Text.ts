@@ -32,7 +32,7 @@ export const text = {
 	formatTime(date: Date | number) {
 		if (!(date instanceof Date)) date = new Date(date);
 
-		return `${text.addZeroes(date.getUTCHours())}${text.addZeroes(date.getUTCMinutes())}:${text.addZeroes(date.getUTCSeconds())} UTC`;
+		return `${text.addZeroes(date.getUTCHours())}:${text.addZeroes(date.getUTCMinutes())}:${text.addZeroes(date.getUTCSeconds())} UTC`;
 	},
 	addZeroes(n: number) {
 		return n < 10 ? `0${n}` : n;
