@@ -42,12 +42,18 @@ export default async (client: ReptilianClient, potentiallyPartialMessage: Messag
 
 	const command = client.getCommand(commandName);
 	if (!command) return;
+
 	const force = msg.client.config.owners.includes(msg.author.id) && args[args.length - 1] === '--force';
 	if (force) args.pop();
 	else {
 		if (command.ownerOnly && !msg.client.config.owners.includes(msg.author.id)) return;
 
-		if (command.guildOnly && !msg.guild) return msg.channel.send(`This command can only be used on a server`);
+		if (msg.guild) {
+			const settings = await client.database.guildSettings.findById(msg.guild.id);
+
+			if (settings?.disabledChannels.includes(msg.channel.id) && !msg.client.helpers.discord.checkPermissions(msg, ['MANAGE_MESSAGES'], msg.member!))
+				return;
+		} else if (command.guildOnly) return msg.channel.send(`This command can only be used on a server`);
 
 		if (!msg.client.helpers.discord.checkPermissions(msg, command.userPermissions, msg.member!))
 			return msg.channel.send('You are not permitted to use this command bro lmao');

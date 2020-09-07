@@ -9,6 +9,7 @@ import { join } from 'path';
 import { Discord, Web, text } from '../util/';
 import { FullCommand, ClientOptions, Config } from '../interfaces/';
 import Twit from 'twit';
+import { Database } from '../../Database/index';
 export * from '../interfaces';
 
 export class ReptilianClient extends Client {
@@ -22,6 +23,7 @@ export class ReptilianClient extends Client {
 	public readonly logging = new LoggingService(LogLevel.info);
 	public readonly twitter: Twit;
 	public readonly commands: Collection<string, FullCommand> = new Collection();
+	public readonly database = new Database(this);
 	public readonly helpers = {
 		web: new Web(),
 		discord: new Discord(this),

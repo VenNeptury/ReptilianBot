@@ -28,6 +28,7 @@
 	},
 	"dependencies": {
 		"@types/common-tags": "^1.8.0",
+		"@types/mongoose": "^5.7.36",
 		"@types/node": "^14.0.23",
 		"@types/node-fetch": "^2.5.7",
 		"@types/tinycolor2": "^1.4.2",
@@ -42,7 +43,7 @@
 		"eslint-config-prettier": "^6.11.0",
 		"eslint-plugin-prettier": "^3.1.4",
 		"husky": "^4.2.5",
-		"mongoose": "^5.10.2",
+		"mongoose": "^5.10.3",
 		"node-fetch": "^2.6.0",
 		"ordinal": "^1.0.3",
 		"precise-commits": "^1.0.2",
