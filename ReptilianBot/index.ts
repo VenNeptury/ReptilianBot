@@ -12,7 +12,7 @@ const client = new ReptilianClient({
 			}
 		}
 	},
-	prefix: '$',
+	prefix: process.env.COMMAND_PREFIX!,
 	database: process.env.DATABASE!,
 	token: process.env.DISCORD_TOKEN!,
 	owners: ['265560538937819137'],
