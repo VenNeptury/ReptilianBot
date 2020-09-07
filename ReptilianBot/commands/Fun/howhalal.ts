@@ -15,8 +15,8 @@ const callback = async (msg: Message, args: string[]) => {
 };
 
 export const command: Command = {
-	aliases: [],
-	description: '',
+	aliases: ['halal', 'howharam', 'haram'],
+	description: 'Find out how halal something is',
 	usage: '',
 	argCount: 0,
 	ownerOnly: false,
