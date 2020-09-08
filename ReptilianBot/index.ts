@@ -18,9 +18,9 @@ const client = new ReptilianClient({
 	owners: ['265560538937819137'],
 	guild: '750423432172142674',
 	channels: {
-		errors: '695788085681586273',
-		modlog: '750485749039628299',
-		messagelog: '750508237215760454'
+		errors: process.env.CHANNEL_ERRORS!,
+		modlog: process.env.CHANNEL_MODLOG!,
+		messagelog: process.env.CHANNEL_MESSAGELOG!
 		// tweets: '750423581229580379'
 	},
 	twitter: {

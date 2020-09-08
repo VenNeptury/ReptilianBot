@@ -2,10 +2,10 @@ import { ReptilianClient } from '../lib/struct/ReptilianClient';
 import { Message } from '../lib/interfaces';
 import { filterMessage } from './message';
 
-export default (client: ReptilianClient, before: Message, after: Message) => {
-	if ((before.partial as boolean) || before.guild?.id !== client.config.guild || before.content === after.content) return;
+export default async (client: ReptilianClient, before: Message, after: Message) => {
+	if (!after.guild || (before.partial as boolean) || before.guild?.id !== client.config.guild || before.content === after.content) return;
 
-	filterMessage(after);
+	void filterMessage(after, await client.database.guildSettings.findById(after.guild.id));
 
 	const embed = client.helpers.discord
 		.embed('INFO', true)

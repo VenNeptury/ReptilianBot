@@ -2,7 +2,7 @@ import { ReptilianClient, Message } from '../lib/struct/ReptilianClient';
 import { stripIndents } from 'common-tags';
 import { regex } from '../lib/constants/regex';
 import { TextChannel } from 'discord.js';
-import { blacklist } from '../lib/constants/blacklist';
+import { GuildSettings } from '../Database/Schemas/GuildSettings';
 
 export default async (client: ReptilianClient, potentiallyPartialMessage: Message) => {
 	const msg = (potentiallyPartialMessage.partial as boolean)
@@ -14,7 +14,8 @@ export default async (client: ReptilianClient, potentiallyPartialMessage: Messag
 
 	if (!client.helpers.discord.checkPermissions(msg, ['SEND_MESSAGES', 'VIEW_CHANNEL'])) return;
 
-	void filterMessage(msg);
+	const settings = msg.guild ? await client.database.guildSettings.findById(msg.guild.id) : null;
+	void filterMessage(msg, settings);
 
 	const prefixRegex = new RegExp(`^(<@!?${client.user!.id}>|${client.config.prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})\\s*`);
 	const matched = prefixRegex.exec(msg.content);
@@ -49,8 +50,6 @@ export default async (client: ReptilianClient, potentiallyPartialMessage: Messag
 		if (command.ownerOnly && !msg.client.config.owners.includes(msg.author.id)) return;
 
 		if (msg.guild) {
-			const settings = await client.database.guildSettings.findById(msg.guild.id);
-
 			if (settings?.disabledChannels.includes(msg.channel.id) && !msg.client.helpers.discord.checkPermissions(msg, ['MANAGE_MESSAGES'], msg.member!))
 				return;
 		} else if (command.guildOnly) return msg.channel.send(`This command can only be used on a server`);
@@ -72,7 +71,7 @@ export default async (client: ReptilianClient, potentiallyPartialMessage: Messag
 		.catch(e => /* client.emit('commandFailed', msg, command, e)*/ console.error(e));
 };
 
-export const filterMessage = (msg: Message) => {
+export const filterMessage = (msg: Message, settings: GuildSettings | null) => {
 	if (!(msg.channel instanceof TextChannel)) return;
 
 	if (msg.channel.id === '752644127400919111' && !/^.*(brick|bricked|🧱|<:bricked:752642688230097108>)+.*$/.test(msg.content))
@@ -83,7 +82,7 @@ export const filterMessage = (msg: Message) => {
 		return msg.delete().catch(() => null);
 	}
 
-	if (new RegExp(blacklist.join('|'), 'gi').test(msg.content)) return msg.delete().catch(() => null);
+	if (settings?.blacklist.length && new RegExp(settings.blacklist.filter(w => w.length).join('|'), 'gi').test(msg.content)) msg.delete().catch(() => null);
 
 	if (msg.content.length > 1000) {
 		void msg.reply("Lmao why so much text bro I ain't reading all that shit");
