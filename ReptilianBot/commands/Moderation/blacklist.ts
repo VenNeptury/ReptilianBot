@@ -17,7 +17,6 @@ const callback = async (msg: Message, args: string[]) => {
 	const re = /"(.+)"/g;
 	let match;
 	while ((match = re.exec(query))) {
-		console.log(match);
 		words.push(match[1]);
 		query = query.replace(match[0], '');
 	}
