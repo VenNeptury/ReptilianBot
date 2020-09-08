@@ -77,7 +77,7 @@ export const filterMessage = (msg: Message, settings: GuildSettings | null) => {
 	if (msg.channel.id === '752644127400919111' && !/^.*(brick|bricked|🧱|<:bricked:752642688230097108>)+.*$/.test(msg.content))
 		return msg.delete().catch(() => null);
 
-	if (regex.links.test(msg.content) && !msg.channel.permissionsFor(msg.author)?.has('EMBED_LINKS')) {
+	if (regex.links.test(msg.content) && !(msg.channel.permissionsFor(msg.author) || msg.member?.permissions)?.has('EMBED_LINKS')) {
 		void msg.reply('No links pls lol');
 		return msg.delete().catch(() => null);
 	}
