@@ -5,7 +5,7 @@ const callback = async (msg: Message) => {
 
 	const settings =
 		(await msg.client.database.guildSettings.findById(msg.guild.id)) ??
-		(await msg.client.database.guildSettings.create({ _id: msg.guild.id, disabledChannels: [], blacklist: [] }));
+		(await msg.client.database.guildSettings.create({ _id: msg.guild.id, disabledChannels: [], blacklist: [], channelsToPrune: [] }));
 
 	let m;
 	if (settings.disabledChannels.includes(msg.channel.id)) {

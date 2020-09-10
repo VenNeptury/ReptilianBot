@@ -1,5 +1,6 @@
 import { Message, ReptilianClient } from '../struct/ReptilianClient';
-import { PermissionString, GuildMember, MessageEmbed, User, Role } from 'discord.js';
+import { PermissionString, GuildMember, MessageEmbed, User, Role, TextChannel } from 'discord.js';
+import { GuildSettings } from '../../Database/Schemas/GuildSettings';
 
 export class Discord {
 	private readonly client: ReptilianClient;
@@ -101,5 +102,23 @@ export class Discord {
 
 		if (m.deletable) void m.delete().catch(() => 0);
 		return choice;
+	}
+
+	public async pruneChannels(role: Role, channels: TextChannel[], settings: GuildSettings) {
+		settings.channelsToPrune = [];
+		for (const channel of channels) {
+			const newChannel = await channel.clone();
+			settings.channelsToPrune.push(newChannel.id);
+			// eslint-disable-next-line @typescript-eslint/naming-convention
+			void channel.updateOverwrite(role, { SEND_MESSAGES: false });
+			void channel.send(`The daily channel prune has started. Please switch over to <#${newChannel.id}>, this channel will be deleted in 30 seconds`);
+
+			void newChannel.setPosition(channel.position);
+			void newChannel.send('Another day, another blank channel. Whatever you do, make it be funny!');
+
+			setTimeout(() => void channel.delete().catch(() => null), 1000 * 30);
+		}
+
+		void settings.save();
 	}
 }
