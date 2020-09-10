@@ -6,7 +6,10 @@ const callback = async (msg: Message) => {
 	const settings = await msg.client.database.guildSettings.findById(msg.guild.id);
 	if (!settings || !settings.channelsToPrune.length) return msg.channel.send('Please add some channels to prune');
 
-	const channels = settings.channelsToPrune.map(c => msg.guild!.channels.cache.get(c)).filter(c => Boolean(c)) as TextChannel[];
+	const channels = msg.mentions.channels.size
+		? msg.mentions.channels.filter(c => msg.guild!.channels.cache.has(c.id)).array()
+		: (settings.channelsToPrune.map(c => msg.guild!.channels.cache.get(c)).filter(c => Boolean(c)) as TextChannel[]);
+
 	if (!channels.length) return msg.channel.send(`Please add some channels to prune`);
 
 	const role = msg.guild.roles.cache.get('696131018507288597');
