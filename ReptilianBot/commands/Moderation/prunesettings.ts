@@ -1,5 +1,4 @@
 import { Command, Message } from '../../lib/interfaces';
-import { emojis } from '../../lib/constants/emojis';
 
 const callback = async (msg: Message, args: string[]) => {
 	if (!msg.guild) return;
@@ -24,7 +23,7 @@ const callback = async (msg: Message, args: string[]) => {
 	}
 
 	void settings.save();
-	msg.react(emojis.success).catch(() => null);
+	msg.react('✅').catch(() => null);
 };
 
 export const command: Command = {
