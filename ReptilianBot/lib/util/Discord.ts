@@ -110,7 +110,7 @@ export class Discord {
 			const newChannel = await channel.clone();
 			settings.channelsToPrune.push(newChannel.id);
 			// eslint-disable-next-line @typescript-eslint/naming-convention
-			void channel.updateOverwrite(role, { SEND_MESSAGES: false });
+			void channel.updateOverwrite(role, { SEND_MESSAGES: false, VIEW_CHANNEL: true });
 			void channel.send(`The daily channel prune has started. Please switch over to <#${newChannel.id}>, this channel will be deleted in 30 seconds`);
 
 			void newChannel.setPosition(channel.position);
