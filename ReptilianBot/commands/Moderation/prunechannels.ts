@@ -12,7 +12,7 @@ const callback = async (msg: Message) => {
 
 	if (!channels.length) return msg.channel.send(`Please add some channels to prune`);
 
-	const role = msg.guild.roles.cache.get('696131018507288597');
+	const role = msg.guild.roles.cache.get('750433152979173417');
 	if (!role) return msg.channel.send('Invalid role lol');
 
 	void msg.channel.send(`Now pruning:\n>>> ${channels.join('\n')}`);
