@@ -11,7 +11,7 @@ export default (client: ReptilianClient, member: GuildMember) => {
 			{ name: 'Member', value: `${member.toString()} ${member.user.tag} (${member.id})` },
 			{
 				name: 'Account Age',
-				value: `${client.helpers.text.age(member.user.createdAt)}\n\n${client.helpers.text.formatDate(
+				value: `${client.helpers.text.age(member.user.createdAt)} ago\n\n${client.helpers.text.formatDate(
 					member.user.createdAt
 				)} at ${client.helpers.text.formatTime(member.user.createdAt)}`
 			}

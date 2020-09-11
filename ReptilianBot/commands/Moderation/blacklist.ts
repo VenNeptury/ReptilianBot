@@ -14,7 +14,7 @@ const callback = async (msg: Message, args: string[]) => {
 	if (!query) return msg.channel.send('gimme some words to block lmao');
 
 	const words = [];
-	const re = /"(.+)"/g;
+	const re = /"([^"]+)"/g;
 	let match;
 	while ((match = re.exec(query))) {
 		words.push(match[1]);
