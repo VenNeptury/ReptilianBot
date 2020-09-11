@@ -1,24 +1,29 @@
-import { RequestInfo, RequestInit } from 'node-fetch';
+import fetch, { RequestInfo, RequestInit } from 'node-fetch';
+import { ReptilianClient } from '../struct/ReptilianClient';
 
 export class Web {
+	private readonly client: ReptilianClient;
+	public constructor(client: ReptilianClient) {
+		this.client = client;
+	}
+
 	public async fetch(requestInfo: RequestInfo, requestOptions?: RequestInit): Promise<any> {
 		return new Promise((resolve, reject) => {
-			this.fetch(requestInfo, requestOptions)
-				.then(async res => {
-					if (res.status > 299 || res.status < 200) reject(`${res.status as string} | ${res.statusText as string}`);
+			fetch(requestInfo, requestOptions)
+				.then(res => {
+					if (!res.ok) reject(`${res.status} | ${res.statusText}`);
 
-					try {
-						const contentType = res.headers.get('content-type') || 'application/json';
-
-						let result;
-						if (contentType.includes('image')) result = await res.buffer();
-						else if (contentType.includes('text')) result = await res.text();
-						else result = await res.json();
-						resolve(result);
-					} catch (error) {
-						reject(error);
-					}
+					const cT = res.headers.get('content-type') ?? 'application/json';
+					res[cT.includes('image') ? 'buffer' : cT.includes('text') ? 'text' : 'json']().then(resolve).catch(reject);
 				})
+				.catch(reject);
+		});
+	}
+
+	public uploadHaste(text: string): Promise<string> {
+		return new Promise((resolve, reject) => {
+			this.fetch('https://hastebin.com/documents', { method: 'POST', body: this.client.helpers.text.shorten(text, 400000) })
+				.then(res => resolve(`https://hastebin.com/${res.key as string}`))
 				.catch(reject);
 		});
 	}

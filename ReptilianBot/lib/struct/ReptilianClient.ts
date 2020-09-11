@@ -25,7 +25,7 @@ export class ReptilianClient extends Client {
 	public readonly commands: Collection<string, FullCommand> = new Collection();
 	public readonly database = new Database(this);
 	public readonly helpers = {
-		web: new Web(),
+		web: new Web(this),
 		discord: new Discord(this),
 		text
 	};

@@ -8,7 +8,7 @@ export const text = {
 			.join(' ');
 	},
 	toCodeBlock(text: string, language?: string) {
-		return `\`\`\`${language ?? ''}\n${text}\`\`\``;
+		return `\`\`\`${language ?? ''}\n${text || ''}\`\`\``;
 	},
 	escapeMarkdown(text: string) {
 		return text.replace(/\\(\*|_|`|~|\\)/g, '$1').replace(/(\*|_|`|~|\\)/g, '\\$1');

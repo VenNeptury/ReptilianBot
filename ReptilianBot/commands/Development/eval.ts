@@ -45,13 +45,18 @@ const callback = async (msg: Message, args: string[]) => {
 
 	if (typeof result !== 'string') result = require('util').inspect(result);
 
-	const consoleOutput = console._formatLines();
+	const consoleOutput = console._formatLines() as string;
 	let response = stripIndents`
-		${msg.client.helpers.text.toCodeBlock(msg.client.helpers.text.shorten(result, 1500), 'ts')}
+		${msg.client.helpers.text.toCodeBlock(result, 'ts')}
 	`;
 	if (consoleOutput) response += `\nConsole Output:${msg.client.helpers.text.toCodeBlock(consoleOutput, 'ts')}`;
 
-	return msg.channel.send(msg.client.helpers.text.shorten(response, 2000));
+	if (response.length < 2000) return msg.channel.send(response);
+
+	const haste = await msg.client.helpers.web.uploadHaste(result).catch(() => null);
+	return msg.channel.send(
+		`${haste ?? 'Failed uploading to hastebin.'}${consoleOutput ? `\n\nConsole Output:${msg.client.helpers.text.toCodeBlock(consoleOutput, 'ts')}` : ''}`
+	);
 };
 
 export const command: Command = {

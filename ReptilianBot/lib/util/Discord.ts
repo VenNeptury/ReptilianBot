@@ -87,7 +87,7 @@ export class Discord {
 		const m = await msg.channel.send(
 			`Please choose one of the options below:\n>>> ${options.map(o => `${o.index.toString()} | ${this.getName(o.option)}`).join('\n')}`
 		);
-		const input = await (await msg.channel.awaitMessages((m: Message) => m.author.id === msg.author.id, { max: 1, time: 1000 * 30 })).first();
+		const input = await (await msg.channel.awaitMessages(m => m.author.id === msg.author.id, { max: 1, time: 1000 * 30 })).first();
 		if (!input) {
 			void m.edit(`The time ran out, so I closed the prompt.`);
 			return null;
