@@ -53,7 +53,7 @@ const callback = async (msg: Message, args: string[]) => {
 
 	if (response.length < 2000) return msg.channel.send(response);
 
-	const haste = await msg.client.helpers.web.uploadHaste(result).catch(() => null);
+	const haste = await msg.client.helpers.web.uploadHaste(result);
 	return msg.channel.send(
 		`${haste ?? 'Failed uploading to hastebin.'}${consoleOutput ? `\n\nConsole Output:${msg.client.helpers.text.toCodeBlock(consoleOutput, 'ts')}` : ''}`
 	);

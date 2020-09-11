@@ -20,11 +20,9 @@ export class Web {
 		});
 	}
 
-	public uploadHaste(text: string): Promise<string> {
-		return new Promise((resolve, reject) => {
-			this.fetch('https://hastebin.com/documents', { method: 'POST', body: this.client.helpers.text.shorten(text, 400000) })
-				.then(res => resolve(`https://hastebin.com/${res.key as string}`))
-				.catch(reject);
-		});
+	public uploadHaste(text: string): Promise<string | null> {
+		return this.fetch('https://hastebin.com/documents', { method: 'POST', body: this.client.helpers.text.shorten(text, 400000) })
+			.then(res => `https://hastebin.com/${res.key as string}`)
+			.catch(() => null);
 	}
 }
