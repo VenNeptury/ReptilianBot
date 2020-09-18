@@ -15,7 +15,8 @@ export default async (client: ReptilianClient, potentiallyPartialMessage: Messag
 	if (!client.helpers.discord.checkPermissions(msg, ['SEND_MESSAGES', 'VIEW_CHANNEL'])) return;
 
 	const settings = msg.guild ? await client.database.guildSettings.findById(msg.guild.id) : null;
-	void filterMessage(msg, settings);
+
+	if (filterMessage(msg, settings)) return;
 
 	const prefixRegex = new RegExp(`^(<@!?${client.user!.id}>|${client.config.prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})\\s*`);
 	const matched = prefixRegex.exec(msg.content);
@@ -72,19 +73,28 @@ export default async (client: ReptilianClient, potentiallyPartialMessage: Messag
 };
 
 export const filterMessage = (msg: Message, settings: GuildSettings | null) => {
-	if (!(msg.channel instanceof TextChannel)) return;
+	if (!(msg.channel instanceof TextChannel)) return false;
 
-	if (msg.channel.id === '752644127400919111' && !/^.*(brick|bricked|🧱|<:bricked:752642688230097108>)+.*$/.test(msg.content))
-		return msg.delete().catch(() => null);
+	if (msg.channel.id === '752644127400919111' && !/^.*(brick|bricked|🧱|<:bricked:752642688230097108>)+.*$/.test(msg.content)) return deleteMsg(msg);
+	if (msg.content.length > 1000) return deleteMsg(msg);
+
+	const lastMsg = msg.client.lastMessage.get(msg.author.id);
+	if (msg.content && lastMsg === msg.content) return deleteMsg(msg);
+
+	msg.client.lastMessage.delete(msg.author.id);
+	msg.client.lastMessage.set(msg.author.id, msg.content);
 
 	if (regex.links.test(msg.content) && !(msg.channel.permissionsFor(msg.author) || msg.member?.permissions)?.has('EMBED_LINKS')) {
 		void msg.reply('No links pls lol');
-		return msg.delete().catch(() => null);
+		return deleteMsg(msg);
 	}
 
-	if (settings?.blacklist.length && new RegExp(settings.blacklist.filter(w => w.length).join('|'), 'gi').test(msg.content)) msg.delete().catch(() => null);
+	if (settings?.blacklist.length && new RegExp(settings.blacklist.filter(w => w.length).join('|'), 'gi').test(msg.content)) return deleteMsg(msg);
 
-	if (msg.content.length > 1000) void msg.delete().catch(() => null);
+	return false;
+};
 
-	if (msg.content && msg.member?.lastMessage?.content === msg.content) void msg.delete().catch(() => null);
+const deleteMsg = (msg: Message) => {
+	void msg.delete().catch(() => null);
+	return true;
 };

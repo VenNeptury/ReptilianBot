@@ -5,7 +5,7 @@ import { filterMessage } from './message';
 export default async (client: ReptilianClient, before: Message, after: Message) => {
 	if (!after.guild || (before.partial as boolean) || before.guild?.id !== client.config.guild || before.content === after.content) return;
 
-	void filterMessage(after, await client.database.guildSettings.findById(after.guild.id));
+	filterMessage(after, await client.database.guildSettings.findById(after.guild.id));
 
 	const embed = client.helpers.discord
 		.embed('INFO', true)
