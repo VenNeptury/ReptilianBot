@@ -73,13 +73,13 @@ export default async (client: ReptilianClient, potentiallyPartialMessage: Messag
 };
 
 export const filterMessage = (msg: Message, settings: GuildSettings | null) => {
-	if (!(msg.channel instanceof TextChannel) || msg.channel.id === '756278975600263178') return false;
+	if (!(msg.channel instanceof TextChannel)) return false;
 
 	if (msg.channel.id === '752644127400919111' && !/^.*(brick|bricked|🧱|<:bricked:752642688230097108>)+.*$/.test(msg.content)) return deleteMsg(msg);
 	if (msg.content.length > 1000) return deleteMsg(msg);
 
 	const lastMsg = msg.client.lastMessage.get(msg.author.id);
-	if (msg.content && lastMsg === msg.content) return deleteMsg(msg);
+	if (msg.channel.id !== '756278975600263178' && msg.content && lastMsg === msg.content) return deleteMsg(msg);
 
 	msg.client.lastMessage.delete(msg.author.id);
 	msg.client.lastMessage.set(msg.author.id, msg.content);
