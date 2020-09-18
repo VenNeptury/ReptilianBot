@@ -86,5 +86,5 @@ export const filterMessage = (msg: Message, settings: GuildSettings | null) => {
 
 	if (msg.content.length > 1000) void msg.delete().catch(() => null);
 
-	if (msg.member?.lastMessage?.content === msg.content) void msg.delete().catch(() => null);
+	if (msg.content && msg.member?.lastMessage?.content === msg.content) void msg.delete().catch(() => null);
 };
