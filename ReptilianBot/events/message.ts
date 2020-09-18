@@ -84,8 +84,7 @@ export const filterMessage = (msg: Message, settings: GuildSettings | null) => {
 
 	if (settings?.blacklist.length && new RegExp(settings.blacklist.filter(w => w.length).join('|'), 'gi').test(msg.content)) msg.delete().catch(() => null);
 
-	if (msg.content.length > 1000) {
-		void msg.reply("Lmao why so much text bro I ain't reading all that shit");
-		return msg.delete().catch(() => null);
-	}
+	if (msg.content.length > 1000) void msg.delete().catch(() => null);
+
+	if (msg.member?.lastMessage?.content === msg.content) void msg.delete().catch(() => null);
 };
