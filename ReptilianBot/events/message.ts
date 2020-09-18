@@ -79,7 +79,7 @@ export const filterMessage = (msg: Message, settings: GuildSettings | null) => {
 	if (msg.content.length > 1000) return deleteMsg(msg);
 
 	const lastMsg = msg.client.lastMessage.get(msg.author.id);
-	if (msg.channel.id !== '756278975600263178' && msg.content && lastMsg === msg.content) return deleteMsg(msg);
+	if (!['756278974568595476', '756278975600263178'].includes(msg.channel.id) && msg.content && lastMsg === msg.content) return deleteMsg(msg);
 
 	msg.client.lastMessage.delete(msg.author.id);
 	msg.client.lastMessage.set(msg.author.id, msg.content);
