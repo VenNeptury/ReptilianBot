@@ -3,9 +3,7 @@ import { Command, Message } from '../../lib/interfaces';
 const callback = async (msg: Message, args: string[]) => {
 	if (!msg.guild) return;
 
-	const settings =
-		(await msg.client.database.guildSettings.findById(msg.guild.id)) ??
-		(await msg.client.database.guildSettings.create({ _id: msg.guild.id, blacklist: [], channelsToPrune: [], disabledChannels: [] }));
+	const settings = await msg.client.database.fetch.guildSettings(msg.guild.id);
 
 	let action = args.shift()?.toLowerCase() as 'add' | 'remove';
 	if (!['add', 'remove'].includes((action as string | null) ?? '')) action = 'add' as 'add' | 'remove';

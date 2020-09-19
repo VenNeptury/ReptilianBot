@@ -14,7 +14,7 @@ export default async (client: ReptilianClient, potentiallyPartialMessage: Messag
 
 	if (!client.helpers.discord.checkPermissions(msg, ['SEND_MESSAGES', 'VIEW_CHANNEL'])) return;
 
-	const settings = msg.guild ? await client.database.guildSettings.findById(msg.guild.id) : null;
+	const settings = msg.guild ? await client.database.models.guildSettings.findById(msg.guild.id) : null;
 
 	if (filterMessage(msg, settings)) return;
 

@@ -21,5 +21,13 @@ export class Database {
 	}
 
 	public connection: Connection;
-	public guildSettings = guildSettings;
+	public models = {
+		guildSettings
+	};
+
+	public fetch = {
+		guildSettings: async (id: string) =>
+			(await this.models.guildSettings.findById(id)) ??
+			this.models.guildSettings.create({ _id: id, blacklist: [], channelsToPrune: [], disabledChannels: [] })
+	};
 }

@@ -114,7 +114,7 @@ export class Discord {
 			void channel.send(`The daily channel prune has started. Please switch over to <#${newChannel.id}>, this channel will be deleted in 30 seconds`);
 
 			void newChannel.setPosition(channel.position);
-			void newChannel.send('Another day, another blank channel. Whatever you do, make it funny!');
+			void newChannel.send('Another day, another blank channel. Whatever you do, make it funny!').then(m => m.pin());
 
 			setTimeout(() => void channel.delete().catch(() => null), 1000 * 30);
 		}

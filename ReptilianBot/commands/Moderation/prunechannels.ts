@@ -3,7 +3,7 @@ import { TextChannel } from 'discord.js';
 
 const callback = async (msg: Message) => {
 	if (!msg.guild) return;
-	const settings = await msg.client.database.guildSettings.findById(msg.guild.id);
+	const settings = await msg.client.database.models.guildSettings.findById(msg.guild.id);
 	if (!settings || !settings.channelsToPrune.length) return msg.channel.send('Please add some channels to prune');
 
 	const channels = msg.mentions.channels.size

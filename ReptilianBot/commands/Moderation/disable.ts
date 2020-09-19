@@ -3,9 +3,7 @@ import { Command, Message } from '../../lib/interfaces';
 const callback = async (msg: Message) => {
 	if (!msg.guild) return;
 
-	const settings =
-		(await msg.client.database.guildSettings.findById(msg.guild.id)) ??
-		(await msg.client.database.guildSettings.create({ _id: msg.guild.id, disabledChannels: [], blacklist: [], channelsToPrune: [] }));
+	const settings = await msg.client.database.fetch.guildSettings(msg.guild.id);
 
 	let m;
 	if (settings.disabledChannels.includes(msg.channel.id)) {

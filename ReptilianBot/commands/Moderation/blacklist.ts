@@ -2,9 +2,7 @@ import { Command, Message } from '../../lib/interfaces';
 
 const callback = async (msg: Message, args: string[]) => {
 	if (!msg.guild) return;
-	const settings =
-		(await msg.client.database.guildSettings.findById(msg.guild.id)) ??
-		(await msg.client.database.guildSettings.create({ _id: msg.guild.id, blacklist: [], disabledChannels: [], channelsToPrune: [] }));
+	const settings = await msg.client.database.fetch.guildSettings(msg.guild.id);
 
 	const action = args.shift();
 	if (!action) return msg.channel.send(msg.client.helpers.text.toCodeBlock(settings.blacklist.join('\n') || 'the blacklist is empty!'));

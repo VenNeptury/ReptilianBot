@@ -8,10 +8,19 @@ import { stripIndents } from 'common-tags';
 
 const callback = async (msg: Message, args: string[]) => {
 	// @ts-ignore
-	const [message, client, commands, database, guild, channel] = [msg, msg.client, msg.client.commands, msg.client.database, msg.guild, msg.channel];
+	const [message, client, commands, database, guild, channel, author, member] = [
+		msg,
+		msg.client,
+		msg.client.commands,
+		msg.client.database,
+		msg.guild,
+		msg.channel,
+		msg.author,
+		msg.member
+	];
 
 	// Remove leading and ending white spaces
-	let content = args.join(' ').replace(/^\s+/, '').replace(/\s*$/, '');
+	let content = args.join(' ').trim();
 
 	// Remove code-blocks
 	if (content.startsWith('```') && content.endsWith('```')) {
