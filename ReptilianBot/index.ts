@@ -15,7 +15,7 @@ const client = new ReptilianClient({
 	prefix: process.env.COMMAND_PREFIX!,
 	database: process.env.DATABASE!,
 	token: process.env.DISCORD_TOKEN!,
-	owners: ['265560538937819137'],
+	owners: ['265560538937819137', '343383572805058560'],
 	guild: '750423432172142674',
 	channels: {
 		errors: process.env.CHANNEL_ERRORS!,
